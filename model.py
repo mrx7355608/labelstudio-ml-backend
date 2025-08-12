@@ -7,7 +7,7 @@ class NewModel(LabelStudioMLBase):
         super(NewModel, self).__init__(**kwargs)
 
         # Load YOLO model (ultralytics v8 API)
-        self.model = YOLO("/home/fawadimran/Downloads/best.pt")
+        self.model = YOLO("/content/drive/MyDrive/yolo-training/best.pt")
         self.labels = self.model.names  # class names
         self.model_dir = "./model-data"
 
