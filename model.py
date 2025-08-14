@@ -1,13 +1,14 @@
 from label_studio_ml.model import LabelStudioMLBase
-import os
 from ultralytics import YOLO
+from label_studio_tools.core.utils.io import get_local_path
+import os
 
 class NewModel(LabelStudioMLBase):
     def __init__(self, **kwargs):
         super(NewModel, self).__init__(**kwargs)
 
         # Load YOLO model (ultralytics v8 API)
-        self.model = YOLO("/content/drive/MyDrive/yolo-training/best.pt")
+        self.model = YOLO("/home/fawadimran/Downloads/best.pt")
         self.labels = self.model.names  # class names
         self.model_dir = "./model-data"
 
@@ -15,7 +16,11 @@ class NewModel(LabelStudioMLBase):
         predictions = []
         for task in tasks:
             image_url = task['data']['image']
-            local_path = self.get_local_path(image_url)
+            print(task)
+            print(image_url)
+            local_path = get_local_path(image_url, task_id=task['id'])
+            print("Exists: ", os.path.exists(local_path))
+            print("SIZE: ", os.path.getsize(local_path))
 
             # Run inference
             results = self.model(local_path)  # returns list of Results objects
